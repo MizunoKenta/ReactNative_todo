@@ -9,7 +9,7 @@ export const Welcome: React.FC = () => {
     <View style={styles.container}>
       <Text h1>Welcome</Text>
       <View>
-        <Button onPress={() => navigation.navigate('Instructions')} title="登録する" />
+        <Button onPress={() => navigation.navigate('Create')} title="登録する" />
       </View>
     </View>
   );

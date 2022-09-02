@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Button} from 'react-native-elements';
-import {Welcome, Instructions, Login} from 'screens';
+import {Welcome, Instructions, Login, Create} from 'screens';
 
 const HeaderRight: React.FC = () => {
   const navigation = useNavigation();
@@ -30,6 +30,13 @@ export const UnauthedStackNav: React.FC = () => {
         options={{
           headerTitle: 'ログイン',
           headerRight: undefined,
+        }}
+      />
+      <nav.Screen
+        name="Create"
+        component={Create}
+        options={{
+          headerTitle: 'ユーザー登録',
         }}
       />
       <nav.Screen name="Instructions" component={Instructions} />

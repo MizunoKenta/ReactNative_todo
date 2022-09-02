@@ -1,32 +1,20 @@
 import {KeyboardView} from 'components/basics';
-import {useUserContext} from 'contexts/UserContext';
 import {useFormik} from 'formik';
-import React, {useCallback} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import * as Yup from 'yup';
+import {create} from 'yup/lib/array';
 
-export const Login: React.FC = () => {
-  const userContext = useUserContext();
-
-  const login = useCallback(
-    (values: {name: string; password: string}) => {
-      userContext.login(values.name, values.password).then(
-        () => {},
-        () => {},
-      );
-    },
-    [userContext],
-  );
-
+export const Create: React.FC = () => {
   const formik = useFormik({
     initialValues: {name: '', password: ''},
     validationSchema: Yup.object().shape({
       name: Yup.string().required('名前を入力してください'),
-      password: Yup.string().required('パスワードを入力してください'),
+      password: Yup.string().required('パスワードを入力してください').min(4, '４文字以上'),
     }),
-    validateOnChange: false,
-    onSubmit: login,
+    validateOnChange: true,
+    onSubmit: create,
   });
 
   return (
@@ -43,7 +31,6 @@ export const Login: React.FC = () => {
         <Input
           label="パスワード"
           containerStyle={styles.input}
-          errorMessage={formik.errors.password}
           secureTextEntry
           onChangeText={formik.handleChange('password')}
           value={formik.values.password}
@@ -51,7 +38,7 @@ export const Login: React.FC = () => {
         <Button
           disabled={formik.isSubmitting}
           onPress={() => formik.handleSubmit()}
-          title="ログインする"
+          title="登録する"
           buttonStyle={styles.button}
         />
       </View>
