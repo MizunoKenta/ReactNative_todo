@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, View, ActivityIndicator} from 'react-native';
-import {CheckBox} from 'react-native-elements';
+import {Button, CheckBox} from 'react-native-elements';
 
 interface Props {
   id: number;
@@ -8,15 +8,18 @@ interface Props {
   completed: boolean;
   processing: boolean;
   toggleTodoCompletion: (id: number) => void;
+  removeTodo: (id: number) => void;
 }
 
-export const TodoItem: React.FC<Props> = ({id, text, completed, toggleTodoCompletion, processing}) => {
+export const TodoItem: React.FC<Props> = ({id, text, completed, toggleTodoCompletion, removeTodo, processing}) => {
   const onToggle = useCallback(() => toggleTodoCompletion(id), [id, toggleTodoCompletion]);
+  const onRemove = useCallback(() => removeTodo(id), [id, removeTodo]);
 
   return (
     <View style={styles.item}>
       <View style={styles.todo}>
         <CheckBox title={text} checked={completed} containerStyle={styles.checkbox} onPress={onToggle} />
+        <Button title="削除" onPress={onRemove} />
       </View>
       {processing && (
         <View style={styles.processing}>
@@ -60,5 +63,8 @@ const styles = StyleSheet.create({
   checkbox: {
     backgroundColor: 'transparent',
     borderWidth: 0,
+  },
+  button: {
+    backgroundColor: 'rgba(0, 0, 30, 20)',
   },
 });

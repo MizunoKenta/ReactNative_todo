@@ -22,6 +22,7 @@ export const TodoBoard: React.FC = () => {
   const [filterType, setFilterType] = useState<FilterType>(FilterType.ALL);
   const [loading, setLoading] = useState(false);
   const [processingTodos, setProcessingTodos] = useState<number[]>([]);
+  const [removeTodos, setRemoveTodos] = useState<number[]>([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -70,7 +71,24 @@ export const TodoBoard: React.FC = () => {
   };
 
   const removeTodo = (id: number) => {
-    Alert.alert('未実装です');
+    // alert("削除機能");
+    const target = todos.find(todo => todo.id === id);
+    if (!target) {
+      return;
+    }
+    setProcessingTodos(prevs => [id, ...prevs]);
+    TodoService.deleteTodo(id)
+      .then(returnedTodo =>
+        setTodos(prevTodos => {
+          return prevTodos.filter(todo => todo.id !== id);
+        }),
+      )
+      .catch(() => {})
+      .finally(() => {
+        setProcessingTodos(prevs => {
+          return prevs.filter(processedId => processedId !== id);
+        });
+      });
   };
 
   const showTodos = todos.filter(showFilter[filterType]);
